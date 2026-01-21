@@ -8,11 +8,9 @@ from app import crop_pdf
 
 app = FastAPI(title="PDF Cropper")
 
-
 @app.get("/health")
 def health():
     return {"ok": True}
-
 
 @app.post("/crop")
 async def crop_api(
@@ -22,12 +20,10 @@ async def crop_api(
     left_mm: float = Form(0.0),
     right_mm: float = Form(0.0),
 ):
-    # UploadFile.content_type가 비어있거나 None일 수 있어 PDF 시그니처로도 한 번 더 체크
-    if file.content_type not in (None, "", "application/pdf"):
-        raise HTTPException(status_code=400, detail="Expected a PDF file (content-type)")
-
     try:
         pdf_bytes = await file.read()
+
+        # ✅ 여기만으로 충분히 검증됨
         if not pdf_bytes.startswith(b"%PDF"):
             raise HTTPException(status_code=400, detail="Expected a PDF file (signature)")
 
