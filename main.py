@@ -54,3 +54,5 @@ async def crop_api(
         raise
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+print("UPLOAD_BYTES:", len(pdf_bytes))
